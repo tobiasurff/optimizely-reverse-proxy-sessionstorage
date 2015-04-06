@@ -2,6 +2,7 @@ var proxy = require('express-http-proxy');
 var express = require('express');
 
 var app = express();
+app.disable('x-powered-by');
 
 // Return long-cached, super-small snippet as a replacement for our current one-line snippet
 // This isn't strictly necessary (and comes with an additional http request), but would allow us to keep our current snippet implementation
@@ -14,6 +15,8 @@ app.get('/js/[0-9]+\.js', function(req, res) {
         if (err) {
             return console.log(err);
         }
+
+        res.setHeader("Cache-Control", "public, max-age=604800");
 
         res.send(data.replace("{{snippet_url}}", "//" + req.hostname + "" + req.originalUrl.replace('/js/', '/js/original/')));
 
