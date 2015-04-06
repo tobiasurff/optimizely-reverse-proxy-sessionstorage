@@ -17,6 +17,7 @@ app.get('/js/[0-9]+\.js', function(req, res) {
         }
 
         res.setHeader("Cache-Control", "public, max-age=604800");
+        res.setHeader("Content-Type", "application/javascript; charset=utf-8");
 
         res.send(data.replace("{{snippet_url}}", "//" + req.hostname + "" + req.originalUrl.replace('/js/', '/js/original/')));
 
